@@ -1,0 +1,24 @@
+public function create()
+{
+    return view('courses.create');
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'course_code' => 'required|unique:courses',
+        'course_name' => 'required',
+        'credit_hours' => 'required|integer',
+        'semester' => 'required',
+    ]);
+
+    Course::create([
+        'course_code' => $request->course_code,
+        'course_name' => $request->course_name,
+        'credit_hours' => $request->credit_hours,
+        'semester' => $request->semester,
+    ]);
+
+    return redirect()->route('courses.index')
+        ->with('success', 'Course Added Successfully!');
+}
